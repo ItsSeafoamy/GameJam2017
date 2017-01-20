@@ -7,9 +7,11 @@ public class Floor : MonoBehaviour {
 	public AnimationCurve wave;
 	public float speed;
 	public float scale;
+	public float height;
 
 	private void FixedUpdate() {
 		float t = Time.time * speed;
+		float h = height / 600;
 
 		TerrainData data = GetComponent<Terrain>().terrainData;
 
@@ -17,11 +19,9 @@ public class Floor : MonoBehaviour {
 
 		for (int x = 0; x < data.heightmapResolution; x++) {
 			for (int y = 0; y < data.heightmapResolution; y++) {
-				float radius = Mathf.Atan2(data.heightmapResolution/2 - y, data.heightmapResolution/2 - x);
-
 				float dist = Vector3.Distance(new Vector3(x, y), new Vector3(data.heightmapResolution/2, data.heightmapResolution/2));
 
-				heights[y, x] = (wave.Evaluate((t + (dist/scale))%1)) / 50f * (dist / 32f);
+				heights[y, x] = (wave.Evaluate((t + (dist/scale)))) * h * (dist / 32f);
 			}
 		}
 
