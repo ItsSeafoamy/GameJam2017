@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+	public GUISkin gui;
+
 	public GameObject ball;
 	public GameObject holoBall;
 	public GameObject net;
@@ -15,8 +17,8 @@ public class Player : MonoBehaviour {
 	public float netSpeed;
 	public float ballSpeed;
 
-	public enum Mode { MOVING_NET, DROPPING_BALL, WAIT }
-	public static Mode mode = Mode.MOVING_NET;
+	public enum Mode { MOVING_NET, DROPPING_BALL, WAIT, PREGAME, ENDGAME }
+	public static Mode mode = Mode.PREGAME;
 
 	private float netTime;
 	private float ballTime;
@@ -68,12 +70,39 @@ public class Player : MonoBehaviour {
 			}
 		} else if (mode == Mode.WAIT) {
 			//Do fuck all
+		} else if (mode == Mode.PREGAME) {
+			if (Input.GetKeyDown(KeyCode.Space)) {
+				mode = Mode.MOVING_NET;
+			}
+		} else if (mode == Mode.ENDGAME) {
+			if (Input.GetKeyDown(KeyCode.Space)) {
+				mode = Mode.PREGAME;
+
+				Animation ani = Camera.main.GetComponent<Animation>();
+				ani.clip = ani.GetClip("CameraUnsad");
+				ani.Play();
+
+				score = 0;
+				lives = maxLives;
+			}
 		}
 	}
 
 	private void OnGUI() {
-		GUI.Label(new Rect(8, 8, 1000, 24), "Score: " + score.ToString());
-		GUI.Label(new Rect(8, 24, 1000, 24), "High Score: " + highScore.ToString());
-		GUI.Label(new Rect(8, 40, 1000, 24), "Lives: " + lives.ToString());
+		GUI.skin = gui;
+
+		if (mode == Mode.MOVING_NET || mode == Mode.DROPPING_BALL || mode == Mode.WAIT) {
+			if (score < highScore) {
+				GUI.color = Color.black;
+			} else {
+				GUI.color = Color.HSVToRGB(Time.time%1, 1, 1);
+			}
+
+			GUI.Label(new Rect(8, 8, 1000, 32), "Score: " + score.ToString());
+			GUI.Label(new Rect(8, 32, 1000, 32), "High Score: " + highScore.ToString());
+
+			GUI.color = Color.black;
+			GUI.Label(new Rect(8, 56, 1000, 32), "Lives: " + lives.ToString());
+		}
 	}
 }

@@ -35,11 +35,17 @@ public class Ball : MonoBehaviour {
 			Player.mode = Player.Mode.MOVING_NET;
 			Player.lives--;
 
-			Camera.main.GetComponent<Animation>().Play();
+			Animation ani = Camera.main.GetComponent<Animation>();
 
 			if (Player.lives == 0) {
 				Debug.Log("GAMEOVER!");
-				Player.mode = Player.Mode.WAIT;
+				Player.mode = Player.Mode.ENDGAME;
+
+				ani.clip = ani.GetClip("CameraSad");
+				ani.Play();
+			} else {
+				ani.clip = ani.GetClip("CameraShake");
+				ani.Play();
 			}
 
 			Destroy(gameObject);
