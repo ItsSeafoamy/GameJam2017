@@ -16,7 +16,7 @@ public class Player : MonoBehaviour {
 	public float ballSpeed;
 
 	public enum Mode { MOVING_NET, DROPPING_BALL, WAIT }
-	public Mode mode = Mode.MOVING_NET;
+	public static Mode mode = Mode.MOVING_NET;
 
 	private float netTime;
 	private float ballTime;
