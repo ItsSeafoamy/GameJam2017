@@ -90,6 +90,8 @@ public class Player : MonoBehaviour {
 
 	private void OnGUI() {
 		GUI.skin = gui;
+		gui.label.fontSize = 20;
+		gui.label.alignment = TextAnchor.UpperLeft;
 
 		if (mode == Mode.MOVING_NET || mode == Mode.DROPPING_BALL || mode == Mode.WAIT) {
 			if (score < highScore) {
@@ -103,6 +105,20 @@ public class Player : MonoBehaviour {
 
 			GUI.color = Color.black;
 			GUI.Label(new Rect(8, 56, 1000, 32), "Lives: " + lives.ToString());
+		} else if (mode == Mode.PREGAME) {
+			GUI.color = Color.black;
+			gui.label.fontSize = 32;
+			gui.label.alignment = TextAnchor.MiddleCenter;
+
+			GUIContent start = new GUIContent("Press SPACE to start!");
+			GUI.Label(new Rect(0, 0, Screen.width, Screen.height), start);
+		} else if (mode == Mode.ENDGAME) {
+			GUI.color = Color.black;
+			gui.label.fontSize = 32;
+			gui.label.alignment = TextAnchor.MiddleCenter;
+
+			GUIContent str = new GUIContent("GAME OVER\nScore: " + score + "\nHigh Score: " + highScore + "\n\nPress SPACE to try again");
+			GUI.Label(new Rect(0, 0, Screen.width, Screen.height), str);
 		}
 	}
 }
