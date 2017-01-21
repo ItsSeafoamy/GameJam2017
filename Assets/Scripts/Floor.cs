@@ -10,6 +10,8 @@ public class Floor : MonoBehaviour {
 	public float height;
 
 	private void FixedUpdate() {
+		if (Player.lives == 0) height *= 0.99f;
+
 		float t = Time.time * speed;
 		float h = height / 600;
 

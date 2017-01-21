@@ -33,6 +33,14 @@ public class Ball : MonoBehaviour {
 
 		if (transform.position.x > maxX || transform.position.x < -maxX || transform.position.z > maxY || transform.position.z < -maxY) {
 			Player.mode = Player.Mode.MOVING_NET;
+			Player.lives--;
+
+			Camera.main.GetComponent<Animation>().Play();
+
+			if (Player.lives == 0) {
+				Debug.Log("GAMEOVER!");
+				Player.mode = Player.Mode.WAIT;
+			}
 
 			Destroy(gameObject);
 		}

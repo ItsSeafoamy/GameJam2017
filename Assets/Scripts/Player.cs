@@ -16,10 +16,24 @@ public class Player : MonoBehaviour {
 	public float ballSpeed;
 
 	public enum Mode { MOVING_NET, DROPPING_BALL, WAIT }
-	public Mode mode = Mode.MOVING_NET;
+	public static Mode mode = Mode.MOVING_NET;
 
 	private float netTime;
 	private float ballTime;
+
+	public static int score;
+	public static int highScore;
+
+	public int maxLives;
+	public static int lives;
+
+	private void Start() {
+		if (PlayerPrefs.HasKey("highscore")) {
+			highScore = PlayerPrefs.GetInt("highscore");
+		}
+
+		lives = maxLives;
+	}
 
 	private void FixedUpdate() {
 		if (mode == Mode.DROPPING_BALL) {
@@ -53,7 +67,13 @@ public class Player : MonoBehaviour {
 				mode = Mode.DROPPING_BALL;
 			}
 		} else if (mode == Mode.WAIT) {
-			
+			//Do fuck all
 		}
+	}
+
+	private void OnGUI() {
+		GUI.Label(new Rect(8, 8, 1000, 24), "Score: " + score.ToString());
+		GUI.Label(new Rect(8, 24, 1000, 24), "High Score: " + highScore.ToString());
+		GUI.Label(new Rect(8, 40, 1000, 24), "Lives: " + lives.ToString());
 	}
 }
