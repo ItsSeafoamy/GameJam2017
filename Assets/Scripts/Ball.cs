@@ -33,6 +33,20 @@ public class Ball : MonoBehaviour {
 
 		if (transform.position.x > maxX || transform.position.x < -maxX || transform.position.z > maxY || transform.position.z < -maxY) {
 			Player.mode = Player.Mode.MOVING_NET;
+			Player.lives--;
+
+			Animation ani = Camera.main.GetComponent<Animation>();
+
+			if (Player.lives == 0) {
+				Debug.Log("GAMEOVER!");
+				Player.mode = Player.Mode.ENDGAME;
+
+				ani.clip = ani.GetClip("CameraSad");
+				ani.Play();
+			} else {
+				ani.clip = ani.GetClip("CameraShake");
+				ani.Play();
+			}
 
 			Destroy(gameObject);
 		}

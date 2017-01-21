@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+	public GUISkin gui;
+
 	public GameObject ball;
 	public GameObject holoBall;
 	public GameObject net;
@@ -15,11 +17,30 @@ public class Player : MonoBehaviour {
 	public float netSpeed;
 	public float ballSpeed;
 
+<<<<<<< HEAD
 	public enum Mode { MOVING_NET, DROPPING_BALL, WAIT }
 	public static Mode mode = Mode.MOVING_NET;
+=======
+	public enum Mode { MOVING_NET, DROPPING_BALL, WAIT, PREGAME, ENDGAME }
+	public static Mode mode = Mode.PREGAME;
+>>>>>>> origin/master
 
 	private float netTime;
 	private float ballTime;
+
+	public static int score;
+	public static int highScore;
+
+	public int maxLives;
+	public static int lives;
+
+	private void Start() {
+		if (PlayerPrefs.HasKey("highscore")) {
+			highScore = PlayerPrefs.GetInt("highscore");
+		}
+
+		lives = maxLives;
+	}
 
 	private void FixedUpdate() {
 		if (mode == Mode.DROPPING_BALL) {
@@ -53,7 +74,56 @@ public class Player : MonoBehaviour {
 				mode = Mode.DROPPING_BALL;
 			}
 		} else if (mode == Mode.WAIT) {
-			
+			//Do fuck all
+		} else if (mode == Mode.PREGAME) {
+			if (Input.GetKeyDown(KeyCode.Space)) {
+				mode = Mode.MOVING_NET;
+			}
+		} else if (mode == Mode.ENDGAME) {
+			if (Input.GetKeyDown(KeyCode.Space)) {
+				mode = Mode.PREGAME;
+
+				Animation ani = Camera.main.GetComponent<Animation>();
+				ani.clip = ani.GetClip("CameraUnsad");
+				ani.Play();
+
+				score = 0;
+				lives = maxLives;
+			}
+		}
+	}
+
+	private void OnGUI() {
+		GUI.skin = gui;
+		gui.label.fontSize = 20;
+		gui.label.alignment = TextAnchor.UpperLeft;
+
+		if (mode == Mode.MOVING_NET || mode == Mode.DROPPING_BALL || mode == Mode.WAIT) {
+			if (score < highScore) {
+				GUI.color = Color.black;
+			} else {
+				GUI.color = Color.HSVToRGB(Time.time%1, 1, 1);
+			}
+
+			GUI.Label(new Rect(8, 8, 1000, 32), "Score: " + score.ToString());
+			GUI.Label(new Rect(8, 32, 1000, 32), "High Score: " + highScore.ToString());
+
+			GUI.color = Color.black;
+			GUI.Label(new Rect(8, 56, 1000, 32), "Lives: " + lives.ToString());
+		} else if (mode == Mode.PREGAME) {
+			GUI.color = Color.black;
+			gui.label.fontSize = 32;
+			gui.label.alignment = TextAnchor.MiddleCenter;
+
+			GUIContent start = new GUIContent("Press SPACE to start!");
+			GUI.Label(new Rect(0, 0, Screen.width, Screen.height), start);
+		} else if (mode == Mode.ENDGAME) {
+			GUI.color = Color.black;
+			gui.label.fontSize = 32;
+			gui.label.alignment = TextAnchor.MiddleCenter;
+
+			GUIContent str = new GUIContent("GAME OVER\nScore: " + score + "\nHigh Score: " + highScore + "\n\nPress SPACE to try again");
+			GUI.Label(new Rect(0, 0, Screen.width, Screen.height), str);
 		}
 	}
 }
