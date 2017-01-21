@@ -43,9 +43,15 @@ public class Ball : MonoBehaviour {
 
 				ani.clip = ani.GetClip("CameraSad");
 				ani.Play();
+
+				Player.audio.PlayOneShot(Player.instance.gameover);
+
+				FindObjectOfType<Floor>().s = 0;
 			} else {
 				ani.clip = ani.GetClip("CameraShake");
 				ani.Play();
+
+				Player.audio.PlayOneShot(Player.instance.miss);
 			}
 
 			Destroy(gameObject);

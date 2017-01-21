@@ -6,9 +6,13 @@ public class Floor : MonoBehaviour {
 
 	public AnimationCurve wave;
 	public float speed;
+	public float speedIncrease;
 	public float scale;
 	public float height;
 	private float hi;
+	[System.NonSerialized]
+	public float s;
+	private float st;
 
 	public float deflateRate, inflateRate;
 
@@ -20,7 +24,10 @@ public class Floor : MonoBehaviour {
 			else hi = height;
 		} else hi = height;
 
+		st += s;
+
 		float t = Time.time * speed;
+		t += st;
 		float h = hi / 600;
 
 		TerrainData data = GetComponent<Terrain>().terrainData;

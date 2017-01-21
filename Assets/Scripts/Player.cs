@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : MonoBehaviour {
 
@@ -15,6 +13,7 @@ public class Player : MonoBehaviour {
 
 	public float netHeight;
 	public float netSpeed;
+	public float netSizeChange;
 	public float ballSpeed;
 
 	public enum Mode { MOVING_NET, DROPPING_BALL, WAIT, PREGAME, ENDGAME }
@@ -29,15 +28,28 @@ public class Player : MonoBehaviour {
 	public int maxLives;
 	public static int lives;
 
+	public static Player instance;
+	public AudioClip bgm;
+	public AudioClip waveWoosh;
+	public AudioClip netBoop;
+	public AudioClip click;
+	public AudioClip success;
+	public AudioClip miss;
+	public AudioClip gameover;
+	public static AudioSource audio;
+
 	private void Start() {
 		if (PlayerPrefs.HasKey("highscore")) {
 			highScore = PlayerPrefs.GetInt("highscore");
 		}
 
 		lives = maxLives;
+
+		instance = this;
+		audio = GetComponent<AudioSource>();
 	}
 
-	private void FixedUpdate() {
+	private void Update() {
 		if (mode == Mode.DROPPING_BALL) {
 			ballTime += Time.deltaTime;
 
@@ -56,6 +68,8 @@ public class Player : MonoBehaviour {
 
 				holoBall.SetActive(false);
 				mode = Mode.WAIT;
+
+				audio.PlayOneShot(click);
 			}
 		} else if (mode == Mode.MOVING_NET) {
 			netTime += Time.deltaTime;
@@ -67,6 +81,8 @@ public class Player : MonoBehaviour {
 			if (Input.GetKeyDown(KeyCode.Space)) {
 				holoBall.SetActive(true);
 				mode = Mode.DROPPING_BALL;
+
+				audio.PlayOneShot(click);
 			}
 		} else if (mode == Mode.WAIT) {
 			//Do fuck all

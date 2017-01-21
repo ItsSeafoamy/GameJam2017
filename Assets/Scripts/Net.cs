@@ -10,6 +10,15 @@ public class Net : MonoBehaviour {
 		Player.mode = Player.Mode.MOVING_NET;
 		Player.score++;
 
+		Player.audio.PlayOneShot(Player.instance.success);
+
+		FindObjectOfType<Floor>().s += FindObjectOfType<Floor>().speedIncrease;
+		Vector3 scale = transform.lossyScale;
+		scale.x -= Player.instance.netSizeChange;
+		scale.y -= Player.instance.netSizeChange;
+		scale.z -= Player.instance.netSizeChange;
+		transform.localScale = scale;
+
 		if (Player.score > Player.highScore) {
 			Player.highScore = Player.score;
 
