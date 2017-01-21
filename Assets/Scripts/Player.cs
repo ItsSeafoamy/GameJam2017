@@ -17,13 +17,8 @@ public class Player : MonoBehaviour {
 	public float netSpeed;
 	public float ballSpeed;
 
-<<<<<<< HEAD
-	public enum Mode { MOVING_NET, DROPPING_BALL, WAIT }
-	public static Mode mode = Mode.MOVING_NET;
-=======
 	public enum Mode { MOVING_NET, DROPPING_BALL, WAIT, PREGAME, ENDGAME }
 	public static Mode mode = Mode.PREGAME;
->>>>>>> origin/master
 
 	private float netTime;
 	private float ballTime;

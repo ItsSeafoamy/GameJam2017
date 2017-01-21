@@ -17,4 +17,12 @@ public class Net : MonoBehaviour {
 			PlayerPrefs.Save();
 		}
 	}
+
+	private void FixedUpdate() {
+		Ball ball = FindObjectOfType<Ball>();
+
+		if (ball != null) {
+			transform.GetChild(0).LookAt(ball.transform);
+		}
+	}
 }
