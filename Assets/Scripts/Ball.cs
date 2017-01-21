@@ -27,6 +27,15 @@ public class Ball : MonoBehaviour {
 		Vector3 dir = new Vector3(x, 0, z).normalized;
 		float mag = Mathf.Sqrt(Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2));
 		rb.velocity = (dir * mag) + new Vector3(0, rb.velocity.y);
+
+		float maxX = terrain.terrainData.size.x/2;
+		float maxY = terrain.terrainData.size.z/2;
+
+		if (transform.position.x > maxX || transform.position.x < -maxX || transform.position.z > maxY || transform.position.z < -maxY) {
+			Player.mode = Player.Mode.MOVING_NET;
+
+			Destroy(gameObject);
+		}
 	}
 
 	public void OnCollisionEnter(Collision collision) {

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : MonoBehaviour {
 
@@ -16,7 +14,7 @@ public class Player : MonoBehaviour {
 	public float ballSpeed;
 
 	public enum Mode { MOVING_NET, DROPPING_BALL, WAIT }
-	public Mode mode = Mode.MOVING_NET;
+	public static Mode mode = Mode.MOVING_NET;
 
 	private float netTime;
 	private float ballTime;
@@ -36,7 +34,7 @@ public class Player : MonoBehaviour {
 				float x = Mathf.Cos(angle) * distance;
 				float z = Mathf.Sin(angle) * distance;
 
-				Instantiate(ball, new Vector3(x, ballHeight, z), Quaternion.identity);
+				Instantiate(ball, new Vector3(x, ballHeight, z), Quaternion.identity).GetComponent<Rigidbody>().AddForce(new Vector3(0, -100, 0));
 
 				holoBall.SetActive(false);
 				mode = Mode.WAIT;
