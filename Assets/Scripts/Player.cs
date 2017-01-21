@@ -15,8 +15,8 @@ public class Player : MonoBehaviour {
 	public float netSpeed;
 	public float ballSpeed;
 
-	public enum Mode { MOVING_NET, DROPPING_BALL }
-	private Mode mode = Mode.MOVING_NET;
+	public enum Mode { MOVING_NET, DROPPING_BALL, WAIT }
+	public Mode mode = Mode.MOVING_NET;
 
 	private float netTime;
 	private float ballTime;
@@ -39,7 +39,7 @@ public class Player : MonoBehaviour {
 				Instantiate(ball, new Vector3(x, ballHeight, z), Quaternion.identity);
 
 				holoBall.SetActive(false);
-				mode = Mode.MOVING_NET;
+				mode = Mode.WAIT;
 			}
 		} else if (mode == Mode.MOVING_NET) {
 			netTime += Time.deltaTime;
@@ -52,6 +52,8 @@ public class Player : MonoBehaviour {
 				holoBall.SetActive(true);
 				mode = Mode.DROPPING_BALL;
 			}
+		} else if (mode == Mode.WAIT) {
+			
 		}
 	}
 }
