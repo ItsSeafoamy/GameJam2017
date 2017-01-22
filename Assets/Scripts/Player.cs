@@ -60,6 +60,10 @@ public class Player : MonoBehaviour {
 	}
 
 	private void Update() {
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			Application.Quit();
+		}
+
 		if (mode == Mode.DROPPING_BALL) {
 			ballTime += Time.deltaTime;
 
