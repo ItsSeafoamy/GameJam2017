@@ -69,6 +69,7 @@ public class Player : MonoBehaviour {
 			pos.z = Mathf.Sin(angle)*distance;
 			pos.y = ballHeight;
 			holoBall.transform.position = pos;
+			holoBall.transform.rotation = Quaternion.Euler(0, -(angle * Mathf.Rad2Deg), 0);
 
 			if (Input.GetKeyDown(KeyCode.Space)) {
 				float x = Mathf.Cos(angle) * distance;
