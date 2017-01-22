@@ -32,37 +32,43 @@ public class Ball : MonoBehaviour {
 		float maxY = terrain.terrainData.size.z/2;
 
 		if (transform.position.x > maxX || transform.position.x < -maxX || transform.position.z > maxY || transform.position.z < -maxY) {
-			Player.mode = Player.Mode.MOVING_NET;
-			Player.lives--;
-
-			Animation ani = Camera.main.GetComponent<Animation>();
-
-			foreach (Powerup p in Player.instance.powerups) {
-				p.gameObject.SetActive(true);
-			}
-
-			if (Player.lives == 0) {
-				Player.mode = Player.Mode.ENDGAME;
-
-				ani.clip = ani.GetClip("CameraSad");
-				ani.Play();
-
-				Player.audio.PlayOneShot(Player.instance.gameover);
-
-				FindObjectOfType<Floor>().s = 0;
-				Vector3 scale = FindObjectOfType<Net>().transform.lossyScale;
-				scale.x = Player.instance.netSize;
-				scale.y = Player.instance.netSize;
-				scale.z = Player.instance.netSize;
-				FindObjectOfType<Net>().transform.localScale = scale;
+			if (Player.hasBounceback) {
+				angle += Mathf.PI;
+				Player.hasBounceback = false;
+				transform.Translate(Mathf.Cos(angle), 0, Mathf.Sign(angle));
 			} else {
-				ani.clip = ani.GetClip("CameraShake");
-				ani.Play();
+				Player.mode = Player.Mode.MOVING_NET;
+				Player.lives--;
 
-				Player.audio.PlayOneShot(Player.instance.miss);
+				Animation ani = Camera.main.GetComponent<Animation>();
+
+				foreach (Powerup p in Player.instance.powerups) {
+					p.gameObject.SetActive(true);
+				}
+
+				if (Player.lives == 0) {
+					Player.mode = Player.Mode.ENDGAME;
+
+					ani.clip = ani.GetClip("CameraSad");
+					ani.Play();
+
+					Player.audio.PlayOneShot(Player.instance.gameover);
+
+					FindObjectOfType<Floor>().s = 0;
+					Vector3 scale = FindObjectOfType<Net>().transform.lossyScale;
+					scale.x = Player.instance.netSize;
+					scale.y = Player.instance.netSize;
+					scale.z = Player.instance.netSize;
+					FindObjectOfType<Net>().transform.localScale = scale;
+				} else {
+					ani.clip = ani.GetClip("CameraShake");
+					ani.Play();
+
+					Player.audio.PlayOneShot(Player.instance.miss);
+				}
+
+				Destroy(gameObject);
 			}
-
-			Destroy(gameObject);
 		}
 	}
 

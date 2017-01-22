@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Powerup : MonoBehaviour {
 
-	public enum Type { LIFE, CUP_SIZE, BOUNCE_BACK }
+	public enum Type { LIFE, CUP_SIZE, BALL_SIZE, BOUNCE_BACK }
 	public Type type;
 
 	public float torque;
@@ -35,6 +35,12 @@ public class Powerup : MonoBehaviour {
 			scale.y += netSizeChange;
 			scale.z += netSizeChange;
 			FindObjectOfType<Net>().transform.localScale = scale;
+		} else if (type == Type.BALL_SIZE) {
+			Vector3 scale = other.transform.lossyScale;
+			scale *= 2;
+			other.transform.localScale = scale;
+		} else if (type == Type.BOUNCE_BACK) {
+			Player.hasBounceback = true;
 		}
 
 		gameObject.SetActive(false);
