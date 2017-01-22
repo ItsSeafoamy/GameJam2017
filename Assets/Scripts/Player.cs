@@ -15,6 +15,7 @@ public class Player : MonoBehaviour {
 	public float netSpeed;
 	public float netSize;
 	public float netSizeChange;
+	public float netMinSize;
 	public float ballSpeed;
 
 	public enum Mode { MOVING_NET, DROPPING_BALL, WAIT, PREGAME, ENDGAME }

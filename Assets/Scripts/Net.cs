@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Net : MonoBehaviour {
+
+	public static bool[] offset = new bool[3];
 
 	public void Start() {
 		transform.localScale = new Vector3(Player.instance.netSize, Player.instance.netSize, Player.instance.netSize);
@@ -21,7 +21,25 @@ public class Net : MonoBehaviour {
 		scale.x -= Player.instance.netSizeChange;
 		scale.y -= Player.instance.netSizeChange;
 		scale.z -= Player.instance.netSizeChange;
+
+		if (scale.x < Player.instance.netMinSize) {
+			scale = new Vector3(Player.instance.netMinSize, Player.instance.netMinSize, Player.instance.netMinSize);
+		}
+
 		transform.localScale = scale;
+
+		if (FindObjectsOfType<Powerup>().Length < 3) {
+			int i = Random.Range(0, Player.instance.powerups.Length);
+			Powerup p = Instantiate(Player.instance.powerups[i], new Vector3(0, -100, 0), Quaternion.Euler(0, 0, 90));
+
+			for (int j = 0; j < 3; j++) {
+				if (!offset[j]) {
+					p.offset = j*120;
+					offset[j] = true;
+					break;
+				}
+			}
+		}
 
 		if (Player.score > Player.highScore) {
 			Player.highScore = Player.score;
