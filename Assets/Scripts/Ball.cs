@@ -38,7 +38,6 @@ public class Ball : MonoBehaviour {
 			Animation ani = Camera.main.GetComponent<Animation>();
 
 			if (Player.lives == 0) {
-				Debug.Log("GAMEOVER!");
 				Player.mode = Player.Mode.ENDGAME;
 
 				ani.clip = ani.GetClip("CameraSad");
@@ -47,6 +46,11 @@ public class Ball : MonoBehaviour {
 				Player.audio.PlayOneShot(Player.instance.gameover);
 
 				FindObjectOfType<Floor>().s = 0;
+				Vector3 scale = FindObjectOfType<Net>().transform.lossyScale;
+				scale.x = Player.instance.netSize;
+				scale.y = Player.instance.netSize;
+				scale.z = Player.instance.netSize;
+				FindObjectOfType<Net>().transform.localScale = scale;
 			} else {
 				ani.clip = ani.GetClip("CameraShake");
 				ani.Play();
@@ -66,5 +70,7 @@ public class Ball : MonoBehaviour {
 		Rigidbody rb = GetComponent<Rigidbody>();
 
 		rb.AddForce(new Vector3(x, y, z));
+
+		Player.audio.PlayOneShot(Player.instance.bounce);
 	}
 }

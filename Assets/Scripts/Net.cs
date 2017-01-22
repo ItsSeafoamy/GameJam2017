@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Net : MonoBehaviour {
 
+	public void Start() {
+		transform.localScale = new Vector3(Player.instance.netSize, Player.instance.netSize, Player.instance.netSize);
+	}
+
 	public void OnTriggerEnter(Collider other) {
 		Destroy(other.gameObject);
 

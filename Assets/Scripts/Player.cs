@@ -13,6 +13,7 @@ public class Player : MonoBehaviour {
 
 	public float netHeight;
 	public float netSpeed;
+	public float netSize;
 	public float netSizeChange;
 	public float ballSpeed;
 
@@ -29,14 +30,17 @@ public class Player : MonoBehaviour {
 	public static int lives;
 
 	public static Player instance;
-	public AudioClip bgm;
 	public AudioClip waveWoosh;
 	public AudioClip netBoop;
 	public AudioClip click;
+	public AudioClip bounce;
 	public AudioClip success;
 	public AudioClip miss;
 	public AudioClip gameover;
 	public static AudioSource audio;
+
+	private bool up;
+	private float last;
 
 	private void Start() {
 		if (PlayerPrefs.HasKey("highscore")) {
@@ -77,6 +81,16 @@ public class Player : MonoBehaviour {
 			Vector3 pos = net.transform.position;
 			pos.y = Mathf.PingPong(netTime * netSpeed, netHeight) + 5;
 			net.transform.position = pos;
+
+			if (pos.y > last && !up) {
+				up = true;
+				audio.PlayOneShot(netBoop);
+			} else if (pos.y < last && up) {
+				up = false;
+				audio.PlayOneShot(netBoop);
+			}
+
+			last = pos.y;
 
 			if (Input.GetKeyDown(KeyCode.Space)) {
 				holoBall.SetActive(true);
