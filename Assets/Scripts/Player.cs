@@ -44,6 +44,8 @@ public class Player : MonoBehaviour {
 	private bool up;
 	private float last;
 
+	public Powerup[] powerups;
+
 	private void Start() {
 		if (PlayerPrefs.HasKey("highscore")) {
 			highScore = PlayerPrefs.GetInt("highscore");

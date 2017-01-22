@@ -37,6 +37,10 @@ public class Ball : MonoBehaviour {
 
 			Animation ani = Camera.main.GetComponent<Animation>();
 
+			foreach (Powerup p in Player.instance.powerups) {
+				p.gameObject.SetActive(true);
+			}
+
 			if (Player.lives == 0) {
 				Player.mode = Player.Mode.ENDGAME;
 
