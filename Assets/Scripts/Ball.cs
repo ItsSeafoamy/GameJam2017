@@ -42,9 +42,9 @@ public class Ball : MonoBehaviour {
 
 				Animation ani = Camera.main.GetComponent<Animation>();
 
-				foreach (Powerup p in Player.instance.powerups) {
-					p.gameObject.SetActive(true);
-				}
+				//foreach (Powerup p in Player.instance.powerups) {
+				//	p.gameObject.SetActive(true);
+				//}
 
 				if (Player.lives == 0) {
 					Player.mode = Player.Mode.ENDGAME;
@@ -60,6 +60,10 @@ public class Ball : MonoBehaviour {
 					scale.y = Player.instance.netSize;
 					scale.z = Player.instance.netSize;
 					FindObjectOfType<Net>().transform.localScale = scale;
+
+					foreach (Powerup p in FindObjectsOfType<Powerup>()) {
+						Destroy(p.gameObject);
+					}
 				} else {
 					ani.clip = ani.GetClip("CameraShake");
 					ani.Play();

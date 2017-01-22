@@ -43,6 +43,8 @@ public class Powerup : MonoBehaviour {
 			Player.hasBounceback = true;
 		}
 
-		gameObject.SetActive(false);
+		Net.offset[(int) offset/3] = false;
+
+		Destroy(gameObject);
 	}
 }

@@ -19,7 +19,7 @@ public class Floor : MonoBehaviour {
 	private void FixedUpdate() {
 		if (Player.mode == Player.Mode.ENDGAME) hi *= deflateRate;
 		else if (Player.mode == Player.Mode.PREGAME) {
-			if (hi <= 0) hi = 0.01f;
+			if (hi < 0.01f) hi = 0.01f;
 			else if (hi < height) hi *= inflateRate;
 			else hi = height;
 		} else hi = height;
