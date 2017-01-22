@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Ball : MonoBehaviour {
 
@@ -30,6 +28,8 @@ public class Ball : MonoBehaviour {
 
 		float maxX = terrain.terrainData.size.x/2;
 		float maxY = terrain.terrainData.size.z/2;
+
+		transform.LookAt(rb.velocity);
 
 		if (transform.position.x > maxX || transform.position.x < -maxX || transform.position.z > maxY || transform.position.z < -maxY) {
 			if (Player.hasBounceback) {
