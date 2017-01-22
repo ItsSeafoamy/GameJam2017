@@ -39,6 +39,8 @@ public class Player : MonoBehaviour {
 	public AudioClip gameover;
 	public static AudioSource audio;
 
+	public Color fontColour;
+
 	private bool up;
 	private float last;
 
@@ -125,25 +127,25 @@ public class Player : MonoBehaviour {
 
 		if (mode == Mode.MOVING_NET || mode == Mode.DROPPING_BALL || mode == Mode.WAIT) {
 			if (score < highScore) {
-				GUI.color = Color.black;
+				GUI.color = fontColour;
 			} else {
-				GUI.color = Color.HSVToRGB(Time.time%1, 1, 1);
+				GUI.color = Color.HSVToRGB((Time.time/2f)%1, 1, 1);
 			}
 
 			GUI.Label(new Rect(8, 8, 1000, 32), "Score: " + score.ToString());
 			GUI.Label(new Rect(8, 32, 1000, 32), "High Score: " + highScore.ToString());
 
-			GUI.color = Color.black;
+			GUI.color = fontColour;
 			GUI.Label(new Rect(8, 56, 1000, 32), "Lives: " + lives.ToString());
 		} else if (mode == Mode.PREGAME) {
-			GUI.color = Color.black;
+			GUI.color = fontColour;
 			gui.label.fontSize = 32;
 			gui.label.alignment = TextAnchor.MiddleCenter;
 
 			GUIContent start = new GUIContent("Press SPACE to start!");
 			GUI.Label(new Rect(0, 0, Screen.width, Screen.height), start);
 		} else if (mode == Mode.ENDGAME) {
-			GUI.color = Color.black;
+			GUI.color = fontColour;
 			gui.label.fontSize = 32;
 			gui.label.alignment = TextAnchor.MiddleCenter;
 
