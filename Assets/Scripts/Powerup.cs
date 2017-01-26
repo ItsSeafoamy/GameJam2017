@@ -43,7 +43,7 @@ public class Powerup : MonoBehaviour {
 			Player.hasBounceback = true;
 		}
 
-		Net.offset[(int) offset/3] = false;
+		Net.offset[((int) offset/3)%3] = false;
 
 		Destroy(gameObject);
 	}
